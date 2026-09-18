@@ -11,7 +11,7 @@ const porTipo = GRUPOS
     <p class="etiqueta">Ao almoço, todos os dias</p>
     <h2 class="almoco__titulo">Outras escolhas para uma pausa bem servida.</h2>
 
-    <div class="almoco__grelha">
+    <div class="almoco__grelha" data-carregando={almoco.folhaCSV ? 'true' : undefined}>
       {porTipo.map(g => (
         <div class="grupo">
           <h3 class="grupo__titulo">{g.tipo}</h3>
@@ -94,6 +94,7 @@ const porTipo = GRUPOS
 
   async function atualizarAlmoco() {
     const seccao = document.getElementById('almoco');
+    const grelha = seccao?.querySelector('.almoco__grelha');
     const url = seccao?.dataset.folhaCsv;
     if (!url) return;
 
@@ -113,15 +114,14 @@ const porTipo = GRUPOS
       const grupos = GRUPOS
         .map((tipo) => ({ tipo, itens: registosHoje.filter((r) => r.tipo === tipo) }))
         .filter((g) => g.itens.length);
-      if (!grupos.length) return;
-
-      const grelha = seccao.querySelector('.almoco__grelha');
-      if (!grelha) return;
+      if (!grupos.length || !grelha) return;
 
       const scope = atributoScope(seccao);
       grelha.replaceChildren(...grupos.map((g) => construirGrupo(scope, g.tipo, g.itens)));
     } catch {
       // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
+    } finally {
+      grelha?.removeAttribute('data-carregando');
     }
   }
 
@@ -140,6 +140,11 @@ const porTipo = GRUPOS
   .almoco__grelha {
     display: grid;
     gap: clamp(1.75rem, 4vw, 3rem);
+    opacity: 1;
+    transition: opacity .35s ease;
+  }
+  .almoco__grelha[data-carregando="true"] {
+    opacity: 0;
   }
   @media (min-width: 46rem) {
     .almoco__grelha { grid-template-columns: repeat(2, 1fr); }
