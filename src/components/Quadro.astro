@@ -5,15 +5,17 @@ const { pratoDoDia: p, contactos } = site;
 <section id="quadro" class="seccao quadro-seccao" data-folha-csv={p.folhaCSV}>
   <div class="envolve">
     <div class="quadro">
-      <div class="quadro__cabeca">
-        <span>Hoje no quadro</span>
-        <span data-campo="data">{p.data}</span>
-      </div>
+      <div class="quadro__conteudo" data-carregando={p.folhaCSV ? 'true' : undefined}>
+        <div class="quadro__cabeca">
+          <span>Hoje no quadro</span>
+          <span data-campo="data">{p.data}</span>
+        </div>
 
-      <p class="quadro__rotulo">Prato do dia</p>
-      <h2 class="quadro__prato" data-campo="prato">{p.prato}</h2>
-      <p class="quadro__sopa">com sopa de <span data-campo="sopa">{p.sopa.toLowerCase()}</span></p>
-      <p class="quadro__preco" data-campo="preco">{p.preco}</p>
+        <p class="quadro__rotulo">Prato do dia</p>
+        <h2 class="quadro__prato" data-campo="prato">{p.prato}</h2>
+        <p class="quadro__sopa">com sopa de <span data-campo="sopa">{p.sopa.toLowerCase()}</span></p>
+        <p class="quadro__preco" data-campo="preco">{p.preco}</p>
+      </div>
 
       <p class="quadro__nota">
         {p.nota}
@@ -28,6 +30,7 @@ const { pratoDoDia: p, contactos } = site;
 
   async function atualizarQuadro() {
     const seccao = document.getElementById('quadro');
+    const conteudo = seccao?.querySelector('.quadro__conteudo');
     const url = seccao?.dataset.folhaCsv;
     if (!url) return;
 
@@ -58,6 +61,8 @@ const { pratoDoDia: p, contactos } = site;
       if (campoPreco && registo.preco) campoPreco.textContent = registo.preco;
     } catch {
       // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
+    } finally {
+      conteudo?.removeAttribute('data-carregando');
     }
   }
 
@@ -80,6 +85,14 @@ const { pratoDoDia: p, contactos } = site;
     padding: clamp(2rem, 6vw, 4rem);
     box-shadow: inset 0 0 90px rgba(0,0,0,.45);
     text-align: center;
+  }
+
+  .quadro__conteudo {
+    opacity: 1;
+    transition: opacity .35s ease;
+  }
+  .quadro__conteudo[data-carregando="true"] {
+    opacity: 0;
   }
 
   .quadro__cabeca {
