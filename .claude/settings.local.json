@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(git add src/components/Quadro.astro)",
+      "PowerShell(git commit -m \"Esconde o quadro do prato do dia at� os dados da folha carregarem\")",
+      "PowerShell(git push)",
+      "PowerShell(git add src/components/Almoco.astro)",
+      "PowerShell(git commit -m \"Esconde o menu de almo�o at� os dados da folha carregarem\")"
+    ]
+  }
+}
