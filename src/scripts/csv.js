@@ -74,6 +74,13 @@ export function ehDomingo() {
   return new Date().getDay() === 0;
 }
 
+export function fraseSopa(sopa) {
+  const texto = (sopa || '').trim();
+  if (!texto) return '';
+  const minusc = texto.toLowerCase();
+  return minusc.startsWith('sopa') ? `com ${minusc}` : `com sopa de ${minusc}`;
+}
+
 export function porExtenso(dataStr) {
   const partes = dataStr.split('/');
   if (partes.length !== 3) return dataStr;

@@ -1,5 +1,6 @@
 ---
 import site from '../data/site.json';
+import { fraseSopa } from '../scripts/csv.js';
 const { pratoDoDia: p, contactos } = site;
 ---
 <section id="quadro" class="seccao quadro-seccao" data-folha-csv={p.folhaCSV}>
@@ -13,7 +14,7 @@ const { pratoDoDia: p, contactos } = site;
 
         <p class="quadro__rotulo">Prato do dia</p>
         <h2 class="quadro__prato" data-campo="prato">{p.prato}</h2>
-        <p class="quadro__sopa" data-linha="sopa">com sopa de <span data-campo="sopa">{p.sopa.toLowerCase()}</span></p>
+        <p class="quadro__sopa" data-campo="sopa" data-linha="sopa">{fraseSopa(p.sopa)}</p>
         <p class="quadro__preco" data-campo="preco" data-linha="preco">{p.preco}</p>
       </div>
 
@@ -26,7 +27,7 @@ const { pratoDoDia: p, contactos } = site;
 </section>
 
 <script>
-  import { analisarCSV, paraObjetos, dataDeHoje, porExtenso, ehDomingo } from '../scripts/csv.js';
+  import { analisarCSV, paraObjetos, dataDeHoje, porExtenso, ehDomingo, fraseSopa } from '../scripts/csv.js';
 
   async function atualizarQuadro() {
     const seccao = document.getElementById('quadro');
@@ -69,7 +70,7 @@ const { pratoDoDia: p, contactos } = site;
 
       if (campoData && registo.data) campoData.textContent = porExtenso(registo.data);
       if (campoPrato && registo.prato) campoPrato.textContent = registo.prato;
-      if (campoSopa && registo.sopa) campoSopa.textContent = registo.sopa.toLowerCase();
+      if (campoSopa && registo.sopa) campoSopa.textContent = fraseSopa(registo.sopa);
       if (campoPreco && registo.preco) campoPreco.textContent = registo.preco;
     } catch {
       // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
