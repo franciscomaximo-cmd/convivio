@@ -40,7 +40,7 @@ const { pratoDoDia: p, contactos } = site;
     const linhaPreco = seccao.querySelector('[data-linha="preco"]');
 
     try {
-      const resposta = await fetch(url);
+      const resposta = await fetch(url, { cache: 'no-store' });
       if (!resposta.ok) return;
 
       const texto = await resposta.text();

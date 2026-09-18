@@ -99,7 +99,7 @@ const porTipo = GRUPOS
     if (!url) return;
 
     try {
-      const resposta = await fetch(url);
+      const resposta = await fetch(url, { cache: 'no-store' });
       if (!resposta.ok) return;
 
       const texto = await resposta.text();

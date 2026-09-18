@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Rodape from '../components/Rodape.astro';
+---
+<Base>
+  <Nav />
+  <main id="conteudo">
+    <section class="seccao erro404">
+      <div class="envolve erro404__int">
+        <p class="etiqueta">Erro 404</p>
+        <h1 class="erro404__titulo">Esta mesa não está posta.</h1>
+        <p class="erro404__texto">
+          A página que procuras não existe ou já não está disponível.
+        </p>
+        <a class="botao" href="/">Voltar à página principal</a>
+      </div>
+    </section>
+  </main>
+  <Rodape />
+</Base>
+
+<style>
+  .erro404 { min-height: 50vh; display: flex; align-items: center; }
+  .erro404__int { text-align: center; }
+  .erro404__titulo {
+    font-size: clamp(var(--t-xl), 5vw, var(--t-2xl));
+    margin-bottom: 1rem;
+  }
+  .erro404__texto {
+    max-width: 44ch;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    color: rgba(18,26,22,.7);
+  }
+</style>
