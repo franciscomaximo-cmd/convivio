@@ -1,0 +1,118 @@
+---
+import site from '../data/site.json';
+const { contactos: c, horario } = site;
+const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(c.morada + ', ' + c.localidade)}&output=embed`;
+---
+<section id="visita" class="seccao visita">
+  <div class="envolve visita__int">
+    <div class="visita__info">
+      <p class="visita__etiqueta">Visita-nos</p>
+      <h2 class="visita__titulo">Encontra-nos aqui</h2>
+
+      <address class="visita__morada">
+        {c.morada}<br />
+        {c.codigoPostal} {c.localidade}
+      </address>
+
+      <h3 class="visita__sub">Horário</h3>
+      <dl class="horario">
+        {horario.map(h => (
+          <div class="horario__linha">
+            <dt>{h.dias}</dt>
+            <dd>{h.horas}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p class="visita__texto">Liga, aparece ou manda mensagem. A malta está por cá.</p>
+
+      <div class="visita__accoes">
+        <a class="botao" href={`tel:${c.telefone}`}>{c.telefoneVisivel}</a>
+        <a class="botao botao--vazio" href={c.mapa} target="_blank" rel="noopener">Abrir no Maps</a>
+      </div>
+    </div>
+
+    <div class="visita__mapa">
+      <iframe
+        src={mapaEmbed}
+        title="Mapa com a localização do Convívio"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .visita {
+    background: var(--feltro-esc);
+    color: var(--giz);
+  }
+  .visita__int {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  @media (min-width: 56rem) {
+    .visita__int { grid-template-columns: 1fr 1fr; }
+  }
+  .visita__etiqueta {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--latao);
+    margin: 0 0 .75rem;
+  }
+  .visita__titulo {
+    font-size: clamp(var(--t-lg), 5vw, var(--t-xl));
+    margin-bottom: 1.5rem;
+  }
+  .visita__morada {
+    font-style: normal;
+    font-size: var(--t-md);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+  .visita__sub {
+    font-size: var(--t-base);
+    font-weight: 600;
+    color: var(--latao);
+    margin-bottom: .5rem;
+  }
+  .horario { margin: 0 0 2rem; }
+  .horario__linha {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: .5rem;
+    border-bottom: 1px solid rgba(199,154,63,.2);
+    max-width: 24rem;
+  }
+  .horario dt { color: rgba(237,233,220,.8); }
+  .horario dd {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .visita__texto { color: rgba(237,233,220,.7); }
+  .visita__accoes {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .visita__mapa {
+    border: 6px solid var(--latao);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--feltro-claro);
+  }
+  .visita__mapa iframe {
+    display: block;
+    width: 100%;
+    height: clamp(18rem, 42vw, 26rem);
+    border: 0;
+    filter: saturate(.85) contrast(1.05);
+  }
+</style>

@@ -1,0 +1,144 @@
+---
+import site from '../data/site.json';
+const { pratoDoDia: p, contactos } = site;
+---
+<section id="quadro" class="seccao quadro-seccao" data-folha-csv={p.folhaCSV}>
+  <div class="envolve">
+    <div class="quadro">
+      <div class="quadro__cabeca">
+        <span>Hoje no quadro</span>
+        <span data-campo="data">{p.data}</span>
+      </div>
+
+      <p class="quadro__rotulo">Prato do dia</p>
+      <h2 class="quadro__prato" data-campo="prato">{p.prato}</h2>
+      <p class="quadro__sopa">com sopa de <span data-campo="sopa">{p.sopa.toLowerCase()}</span></p>
+      <p class="quadro__preco" data-campo="preco">{p.preco}</p>
+
+      <p class="quadro__nota">
+        {p.nota}
+        <a href={contactos.facebook}>Ver o Facebook</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { analisarCSV, paraObjetos, dataDeHoje, porExtenso } from '../scripts/csv.js';
+
+  async function atualizarQuadro() {
+    const seccao = document.getElementById('quadro');
+    const url = seccao?.dataset.folhaCsv;
+    if (!url) return;
+
+    try {
+      const resposta = await fetch(url);
+      if (!resposta.ok) return;
+
+      const texto = await resposta.text();
+      const linhas = analisarCSV(texto);
+      if (linhas.length < 2) return;
+
+      const registos = paraObjetos(linhas);
+      if (!registos.length) return;
+
+      const hoje = dataDeHoje();
+      const registoHoje = registos.find((r) => r.data === hoje);
+      const registo = registoHoje ?? registos[registos.length - 1];
+      if (!registo || !registo.prato) return;
+
+      const campoData = seccao.querySelector('[data-campo="data"]');
+      const campoPrato = seccao.querySelector('[data-campo="prato"]');
+      const campoSopa = seccao.querySelector('[data-campo="sopa"]');
+      const campoPreco = seccao.querySelector('[data-campo="preco"]');
+
+      if (campoData && registo.data) campoData.textContent = porExtenso(registo.data);
+      if (campoPrato && registo.prato) campoPrato.textContent = registo.prato;
+      if (campoSopa && registo.sopa) campoSopa.textContent = registo.sopa.toLowerCase();
+      if (campoPreco && registo.preco) campoPreco.textContent = registo.preco;
+    } catch {
+      // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
+    }
+  }
+
+  atualizarQuadro();
+</script>
+
+<style>
+  .quadro-seccao { background: var(--creme); }
+
+  .quadro {
+    background: var(--feltro);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,.035) 0 2px, transparent 2px),
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,.03) 0 2px, transparent 2px),
+      radial-gradient(circle at 45% 85%, rgba(255,255,255,.025) 0 3px, transparent 3px);
+    background-size: 90px 90px, 130px 130px, 160px 160px;
+    color: var(--giz);
+    border: 10px solid var(--latao);
+    border-radius: 3px;
+    padding: clamp(2rem, 6vw, 4rem);
+    box-shadow: inset 0 0 90px rgba(0,0,0,.45);
+    text-align: center;
+  }
+
+  .quadro__cabeca {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--latao);
+    border-bottom: 1px solid rgba(199,154,63,.35);
+    padding-bottom: .75rem;
+    margin-bottom: clamp(1.5rem, 5vw, 2.75rem);
+    text-align: left;
+  }
+
+  .quadro__rotulo {
+    font-family: var(--corpo);
+    font-style: italic;
+    font-size: var(--t-base);
+    color: rgba(237,233,220,.65);
+    margin: 0 0 .5rem;
+    max-width: none;
+  }
+
+  .quadro__prato {
+    font-size: clamp(var(--t-lg), 6vw, var(--t-2xl));
+    max-width: 16ch;
+    margin-inline: auto;
+  }
+
+  .quadro__sopa {
+    font-size: var(--t-md);
+    color: rgba(237,233,220,.75);
+    margin: .85rem auto 0;
+    max-width: 30ch;
+  }
+
+  .quadro__preco {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: var(--t-xl);
+    color: var(--latao);
+    margin: 1.25rem 0 0;
+    max-width: none;
+  }
+
+  .quadro__nota {
+    font-size: var(--t-sm);
+    color: rgba(237,233,220,.55);
+    margin: clamp(1.75rem, 5vw, 2.5rem) auto 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(199,154,63,.2);
+    max-width: 44ch;
+  }
+  .quadro__nota a {
+    color: var(--latao);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+</style>

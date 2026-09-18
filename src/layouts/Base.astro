@@ -1,0 +1,57 @@
+---
+import site from '../data/site.json';
+import '../styles/global.css';
+
+const { contactos: c } = site;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": `Café ${site.nome}`,
+  "description": site.descricao,
+  "url": site.dominio,
+  "telephone": c.telefone,
+  "servesCuisine": "Portuguesa",
+  "priceRange": "€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": c.morada,
+    "addressLocality": c.localidade,
+    "postalCode": c.codigoPostal,
+    "addressCountry": "PT"
+  },
+  "openingHours": site.horarioSchema,
+  "hasMap": c.mapa,
+  "sameAs": [c.facebook, c.instagram]
+};
+---
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.titulo}</title>
+    <meta name="description" content={site.descricao} />
+    <link rel="canonical" href={site.dominio} />
+
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:title" content={site.titulo} />
+    <meta property="og:description" content={site.descricao} />
+    <meta property="og:url" content={site.dominio} />
+    <meta property="og:locale" content="pt_PT" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a class="saltar" href="#conteudo">Saltar para o conteúdo</a>
+    <slot />
+  </body>
+</html>

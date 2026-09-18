@@ -1,0 +1,25 @@
+---
+import site from '../data/site.json';
+const { historia } = site;
+---
+<section id="historia" class="seccao historia">
+  <div class="envolve historia__int">
+    <p class="etiqueta">{historia.etiqueta}</p>
+    <h2 class="historia__titulo">{historia.titulo}</h2>
+    <p class="historia__texto">{historia.texto}</p>
+  </div>
+</section>
+
+<style>
+  .historia { background: var(--creme-esc); }
+  .historia__int { max-width: 44rem; }
+  .historia__titulo {
+    font-size: clamp(var(--t-lg), 5vw, var(--t-xl));
+    margin-bottom: 1.5rem;
+  }
+  .historia__texto {
+    font-size: var(--t-md);
+    line-height: 1.6;
+    color: rgba(18,26,22,.78);
+  }
+</style>

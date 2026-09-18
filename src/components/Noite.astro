@@ -1,0 +1,61 @@
+---
+import site from '../data/site.json';
+const { noite } = site;
+---
+<section id="noite" class="seccao noite">
+  <div class="envolve noite__int">
+    <div>
+      <p class="noite__etiqueta">Depois do jantar</p>
+      <h2 class="noite__titulo">{noite.titulo}</h2>
+      <p class="noite__texto">{noite.texto}</p>
+    </div>
+    <ul class="noite__lista">
+      {noite.pontos.map(p => <li>{p}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .noite {
+    background: var(--feltro);
+    color: var(--giz);
+  }
+  .noite__int {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  @media (min-width: 56rem) {
+    .noite__int { grid-template-columns: 1.15fr .85fr; }
+  }
+  .noite__etiqueta {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--latao);
+    margin: 0 0 .75rem;
+  }
+  .noite__titulo {
+    font-size: clamp(var(--t-lg), 5vw, var(--t-2xl));
+    max-width: 16ch;
+    margin-bottom: 1.5rem;
+  }
+  .noite__texto {
+    font-size: var(--t-md);
+    line-height: 1.55;
+    color: rgba(237,233,220,.78);
+  }
+  .noite__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(199,154,63,.3);
+  }
+  .noite__lista li {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--t-md);
+    padding-block: 1.1rem;
+    border-bottom: 1px solid rgba(199,154,63,.3);
+  }
+</style>

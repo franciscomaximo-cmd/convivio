@@ -1,0 +1,180 @@
+---
+import site from '../data/site.json';
+const { almoco } = site;
+const GRUPOS = ["Sopa", "Salada", "Peixe", "Carne"];
+const porTipo = GRUPOS
+  .map(t => ({ tipo: t, itens: almoco.itens.filter(i => i.tipo === t) }))
+  .filter(g => g.itens.length);
+---
+<section id="almoco" class="seccao almoco" data-folha-csv={almoco.folhaCSV}>
+  <div class="envolve">
+    <p class="etiqueta">Ao almoço, todos os dias</p>
+    <h2 class="almoco__titulo">Outras escolhas para uma pausa bem servida.</h2>
+
+    <div class="almoco__grelha">
+      {porTipo.map(g => (
+        <div class="grupo">
+          <h3 class="grupo__titulo">{g.tipo}</h3>
+          <ul class="lista">
+            {g.itens.map(i => (
+              <li class="linha">
+                <span class="linha__nome">{i.nome}</span>
+                <span class="linha__pontos" aria-hidden="true"></span>
+                <span class="linha__preco">
+                  {i.preco
+                    ? i.preco
+                    : <>½ {i.meia} <span class="barra">/</span> {i.inteira}</>}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { analisarCSV, paraObjetos, dataDeHoje } from '../scripts/csv.js';
+
+  const GRUPOS = ['Sopa', 'Salada', 'Peixe', 'Carne'];
+
+  function atributoScope(seccao) {
+    const attr = seccao.getAttributeNames().find((n) => n.startsWith('data-astro-cid-'));
+    return attr ?? null;
+  }
+
+  function criarElemento(scope, tag, className) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (scope) el.setAttribute(scope, '');
+    return el;
+  }
+
+  function preencherPreco(scope, preco, item) {
+    const meia = (item.meia || '').trim();
+    const inteira = (item.inteira || '').trim();
+    if (meia && inteira) {
+      const barra = criarElemento(scope, 'span', 'barra');
+      barra.textContent = '/';
+      preco.append('½ ', meia, ' ', barra, ' ', inteira);
+      return;
+    }
+    preco.textContent = meia || inteira || '';
+  }
+
+  function construirGrupo(scope, tipo, itens) {
+    const grupo = criarElemento(scope, 'div', 'grupo');
+
+    const titulo = criarElemento(scope, 'h3', 'grupo__titulo');
+    titulo.textContent = tipo;
+    grupo.append(titulo);
+
+    const lista = criarElemento(scope, 'ul', 'lista');
+
+    itens.forEach((item) => {
+      const linha = criarElemento(scope, 'li', 'linha');
+
+      const nome = criarElemento(scope, 'span', 'linha__nome');
+      nome.textContent = item.nome;
+
+      const pontos = criarElemento(scope, 'span', 'linha__pontos');
+      pontos.setAttribute('aria-hidden', 'true');
+
+      const preco = criarElemento(scope, 'span', 'linha__preco');
+      preencherPreco(scope, preco, item);
+
+      linha.append(nome, pontos, preco);
+      lista.append(linha);
+    });
+
+    grupo.append(lista);
+    return grupo;
+  }
+
+  async function atualizarAlmoco() {
+    const seccao = document.getElementById('almoco');
+    const url = seccao?.dataset.folhaCsv;
+    if (!url) return;
+
+    try {
+      const resposta = await fetch(url);
+      if (!resposta.ok) return;
+
+      const texto = await resposta.text();
+      const linhas = analisarCSV(texto);
+      if (linhas.length < 2) return;
+
+      const registos = paraObjetos(linhas);
+      const hoje = dataDeHoje();
+      const registosHoje = registos.filter((r) => r.data === hoje && r.nome);
+      if (!registosHoje.length) return;
+
+      const grupos = GRUPOS
+        .map((tipo) => ({ tipo, itens: registosHoje.filter((r) => r.tipo === tipo) }))
+        .filter((g) => g.itens.length);
+      if (!grupos.length) return;
+
+      const grelha = seccao.querySelector('.almoco__grelha');
+      if (!grelha) return;
+
+      const scope = atributoScope(seccao);
+      grelha.replaceChildren(...grupos.map((g) => construirGrupo(scope, g.tipo, g.itens)));
+    } catch {
+      // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
+    }
+  }
+
+  atualizarAlmoco();
+</script>
+
+<style>
+  .almoco { background: var(--creme-esc); }
+
+  .almoco__titulo {
+    font-size: clamp(var(--t-lg), 4.5vw, var(--t-xl));
+    max-width: 20ch;
+    margin-bottom: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .almoco__grelha {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+  }
+  @media (min-width: 46rem) {
+    .almoco__grelha { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .grupo__titulo {
+    font-size: var(--t-base);
+    font-weight: 600;
+    color: var(--feltro);
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--feltro);
+    margin-bottom: .85rem;
+  }
+
+  .lista { list-style: none; margin: 0; padding: 0; }
+
+  .linha {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    padding-block: .45rem;
+  }
+  .linha__nome { flex: 0 1 auto; }
+  .linha__pontos {
+    flex: 1 1 auto;
+    min-width: 1.5rem;
+    border-bottom: 1px dotted rgba(18,26,22,.4);
+    transform: translateY(-.25rem);
+  }
+  .linha__preco {
+    flex: 0 0 auto;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    white-space: nowrap;
+  }
+  .barra { color: rgba(18,26,22,.4); }
+</style>

@@ -1,0 +1,44 @@
+---
+import site from '../data/site.json';
+const { contactos: c } = site;
+const ano = new Date().getFullYear();
+---
+<footer class="rodape">
+  <div class="envolve rodape__int">
+    <p class="rodape__marca">{site.nome} — Aveiro desde sempre.</p>
+    <nav class="rodape__redes" aria-label="Redes sociais">
+      <a href={c.facebook} target="_blank" rel="noopener">Facebook</a>
+      <a href={`tel:${c.telefone}`}>{c.telefoneVisivel}</a>
+    </nav>
+    <p class="rodape__legal">© {ano} Café {site.nome}</p>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    background: var(--tinta);
+    color: rgba(237,233,220,.7);
+    padding-block: 2.5rem;
+    font-size: var(--t-sm);
+  }
+  .rodape__int {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rodape p { margin: 0; max-width: none; }
+  .rodape__marca {
+    font-family: var(--display);
+    font-weight: 600;
+    color: var(--giz);
+  }
+  .rodape__redes { display: flex; gap: 1.5rem; }
+  .rodape__redes a {
+    color: var(--latao);
+    text-decoration: none;
+  }
+  .rodape__redes a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .rodape__legal { opacity: .6; }
+</style>

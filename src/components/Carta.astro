@@ -1,0 +1,64 @@
+---
+import site from '../data/site.json';
+---
+<section id="carta" class="seccao carta">
+  <div class="envolve">
+    <p class="etiqueta">Sabores sem cerimónia</p>
+    <h2 class="carta__titulo">O menu que pede mais uma rodada.</h2>
+
+    <ul class="carta__grelha">
+      {site.carta.map(i => (
+        <li class="item">
+          <div class="item__topo">
+            <h3 class="item__nome">{i.nome}</h3>
+            <span class="item__preco">{i.preco}</span>
+          </div>
+          <p class="item__texto">{i.texto}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .carta { background: var(--creme); }
+  .carta__titulo {
+    font-size: clamp(var(--t-lg), 5vw, var(--t-xl));
+    max-width: 18ch;
+    margin-bottom: clamp(2rem, 6vw, 3.5rem);
+  }
+  .carta__grelha {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid rgba(18,26,22,.18);
+  }
+  @media (min-width: 46rem) {
+    .carta__grelha { grid-template-columns: repeat(2, 1fr); column-gap: clamp(2rem, 5vw, 4rem); }
+  }
+  .item {
+    padding-block: 1.4rem;
+    border-bottom: 1px solid rgba(18,26,22,.18);
+  }
+  .item__topo {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .item__nome { font-size: var(--t-md); }
+  .item__preco {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: var(--t-base);
+    color: var(--feltro);
+    white-space: nowrap;
+  }
+  .item__texto {
+    margin: .35rem 0 0;
+    color: rgba(18,26,22,.7);
+    font-size: var(--t-sm);
+  }
+</style>

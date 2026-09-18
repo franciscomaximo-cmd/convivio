@@ -1,0 +1,81 @@
+{
+  "nome": "Convívio",
+  "tagline": "Café-bar de bairro · Aveiro",
+  "titulo": "Convívio — Café-bar em Aveiro",
+  "descricao": "Café-bar tradicional em Aveiro: comida caseira, bilhar, dardos e boa companhia há mais de 40 anos.",
+  "dominio": "https://cafeconvivio.pt",
+
+  "contactos": {
+    "telefone": "+351234195699",
+    "telefoneVisivel": "234 195 699",
+    "morada": "R. de Aires Barbosa 7",
+    "localidade": "Aveiro",
+    "codigoPostal": "3810-060",
+    "mapa": "https://maps.google.com/?q=R.+de+Aires+Barbosa+7,+Aveiro",
+    "facebook": "https://www.facebook.com/convivioaveiro",
+    "instagram": "https://www.instagram.com/cafeconvivioaveiro/"
+  },
+
+  "horario": [
+    { "dias": "Segunda a sábado", "horas": "9:00 — 2:00" },
+    { "dias": "Domingo", "horas": "Fechado" }
+  ],
+  "horarioSchema": ["Mo-Sa 09:00-02:00"],
+
+  "hero": {
+    "titulo": "A mesa está posta. Falta a malta.",
+    "texto": "Há mais de 40 anos que o Convívio junta amigos, estudantes e histórias que se prolongam pela noite dentro.",
+    "imagem": "/images/fachada.png",
+    "legendaImagem": "Fachada do Convívio com a sala cheia"
+  },
+
+  "pratoDoDia": {
+    "folhaCSV": "https://docs.google.com/spreadsheets/d/e/2PACX-1vShT30gFAMDaMoYx-Lp2iyu9ML5Eekp1kcYJU-Y6e_DGtgi6yOFIXef4pBX3RduNeT36VqA62fSrWOF/pub?gid=0&single=true&output=csv",
+    "data": "17 de setembro",
+    "prato": "Coxinhas de frango assadas",
+    "sopa": "Creme de legumes",
+    "preco": "8,80 €",
+    "nota": "Atualizado todos os dias. Também publicamos no Facebook."
+  },
+
+  "almoco": {
+    "folhaCSV": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRb28JVGKr6mnb8H4GGEN9QFDotYaNrEgniEy9aRXmRtKftwBnMkr44io-PxFSf5lnSt6LlVWyoyjA-/pub?gid=0&single=true&output=csv",
+    "itens": [
+      { "tipo": "Sopa", "nome": "Caldo verde", "preco": "1,60 €" },
+      { "tipo": "Salada", "nome": "Peru, atum e delícias", "preco": "3,00 €" },
+      { "tipo": "Peixe", "nome": "Bacalhau", "meia": "10,00 €", "inteira": "19,00 €" },
+      { "tipo": "Peixe", "nome": "Arroz de camarão", "meia": "9,00 €", "inteira": "16,00 €" },
+      { "tipo": "Carne", "nome": "Picanha grelhada", "meia": "10,00 €", "inteira": "19,00 €" },
+      { "tipo": "Carne", "nome": "Coelho à caçador", "meia": "8,50 €", "inteira": "16,00 €" },
+      { "tipo": "Carne", "nome": "Bife à casa", "meia": "9,00 €", "inteira": "17,00 €" },
+      { "tipo": "Carne", "nome": "Alheira à Mirandela", "preco": "8,00 €" },
+      { "tipo": "Carne", "nome": "Prego no prato", "preco": "9,50 €" },
+      { "tipo": "Carne", "nome": "Costeleta de vitela", "preco": "15,00 €" }
+    ]
+  },
+
+  "noite": {
+    "titulo": "Aqui, a noite começa à mesa.",
+    "texto": "Há petiscos para partilhar, mesas de bilhar para disputar e dardos para decidir quem paga a próxima rodada. O resto é conversa.",
+    "pontos": [
+      "Bilhar para ficar até ao fim",
+      "Dardos, desafios e gargalhadas",
+      "Sabores sem cerimónia"
+    ]
+  },
+
+  "carta": [
+    { "nome": "Francesinha", "texto": "Clássica, gulosa e bem composta.", "preco": "8,50 €" },
+    { "nome": "Petiscos", "texto": "Para o centro da mesa e da conversa.", "preco": "desde 3,50 €" },
+    { "nome": "Bifana", "texto": "Aquele clássico que sabe a pausa boa.", "preco": "3,00 €" },
+    { "nome": "Imperial fresca", "texto": "Para brindar à malta toda.", "preco": "1,50 €" },
+    { "nome": "Café & snack", "texto": "Porque há dias que começam devagar.", "preco": "desde 0,80 €" },
+    { "nome": "Copos da casa", "texto": "Boa companhia, preço em conta.", "preco": "desde 2,50 €" }
+  ],
+
+  "historia": {
+    "etiqueta": "Mais de 40 anos de portas abertas",
+    "titulo": "De geração em geração, o ponto de encontro continua o mesmo.",
+    "texto": "Entre aulas, Erasmus, aniversários improvisados e conversas que nunca têm hora para acabar, o Convívio é parte da vida de Aveiro."
+  }
+}

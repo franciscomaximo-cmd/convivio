@@ -1,0 +1,115 @@
+:root {
+  /* Pano de bilhar, latão de balcão, papel de menu */
+  --feltro:      #16342A;
+  --feltro-esc:  #0C1D17;
+  --feltro-claro:#22483B;
+  --creme:       #F3EEE2;
+  --creme-esc:   #E2D9C5;
+  --latao:       #C79A3F;
+  --tinta:       #121A16;
+  --giz:         #EDE9DC;
+
+  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --corpo: "Newsreader", Georgia, serif;
+
+  /* Escala modular 1.333 */
+  --t-xs:  0.75rem;
+  --t-sm:  0.875rem;
+  --t-base:1.0625rem;
+  --t-md:  1.333rem;
+  --t-lg:  1.777rem;
+  --t-xl:  2.369rem;
+  --t-2xl: 3.157rem;
+  --t-3xl: 4.209rem;
+
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --max: 68rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--creme);
+  color: var(--tinta);
+  font-family: var(--corpo);
+  font-size: var(--t-base);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1rem; max-width: 62ch; }
+
+a { color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+:focus-visible {
+  outline: 3px solid var(--latao);
+  outline-offset: 3px;
+}
+
+.envolve {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.seccao { padding-block: clamp(3.5rem, 9vw, 7rem); }
+
+.etiqueta {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  letter-spacing: 0.01em;
+  color: var(--latao);
+  margin: 0 0 .75rem;
+}
+
+.botao {
+  display: inline-block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--t-base);
+  padding: .8rem 1.6rem;
+  border-radius: 2px;
+  text-decoration: none;
+  border: 2px solid var(--latao);
+  background: var(--latao);
+  color: var(--feltro-esc);
+  transition: background .18s ease, color .18s ease;
+}
+.botao:hover { background: transparent; color: var(--latao); }
+
+.botao--vazio { background: transparent; color: var(--latao); }
+.botao--vazio:hover { background: var(--latao); color: var(--feltro-esc); }
+
+.saltar {
+  position: absolute;
+  left: -9999px;
+}
+.saltar:focus {
+  left: var(--gutter);
+  top: 1rem;
+  z-index: 50;
+  background: var(--latao);
+  color: var(--feltro-esc);
+  padding: .6rem 1rem;
+  font-family: var(--display);
+  font-weight: 700;
+}

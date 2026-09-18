@@ -1,0 +1,55 @@
+---
+import site from '../data/site.json';
+---
+<header class="nav">
+  <div class="envolve nav__int">
+    <a href="/" class="nav__marca">{site.nome}</a>
+    <nav aria-label="Principal">
+      <a href="#quadro">Hoje</a>
+      <a href="#carta">Carta</a>
+      <a href="#noite">À noite</a>
+      <a href="#visita">Visita-nos</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    background: var(--feltro-esc);
+    color: var(--giz);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(199,154,63,.25);
+  }
+  .nav__int {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: .9rem;
+    flex-wrap: wrap;
+  }
+  .nav__marca {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: var(--t-md);
+    letter-spacing: -.03em;
+    text-decoration: none;
+    color: var(--giz);
+  }
+  nav {
+    display: flex;
+    gap: clamp(.9rem, 3vw, 2rem);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: var(--t-sm);
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--giz);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+  }
+  nav a:hover { border-bottom-color: var(--latao); }
+</style>
