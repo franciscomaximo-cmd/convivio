@@ -70,6 +70,10 @@ export function dataDeHoje() {
   return `${dia}/${mes}/${ano}`;
 }
 
+export function ehDomingo() {
+  return new Date().getDay() === 0;
+}
+
 export function porExtenso(dataStr) {
   const partes = dataStr.split('/');
   if (partes.length !== 3) return dataStr;
