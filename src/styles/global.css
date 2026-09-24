@@ -53,7 +53,7 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-p { margin: 0 0 1rem; max-width: 62ch; }
+p { margin: 0 0 1rem; max-width: 62ch; text-wrap: pretty; }
 
 a { color: inherit; }
 
