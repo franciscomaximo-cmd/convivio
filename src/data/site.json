@@ -35,11 +35,22 @@
     "prato": "Barriga de porco grelhada",
     "sopa": "Canja",
     "preco": "8,80 €",
-    "nota": "Atualizado todos os dias. Também publicamos no Facebook."
+    "nota": "Atualizado todos os dias. Também publicamos no Facebook.",
+    "falha": {
+      "texto": "Não foi possível carregar o prato de hoje.",
+      "link": "Ver o prato do dia no Facebook",
+      "telefone": "Se não o encontrar no Facebook, ligue-nos para"
+    }
   },
 
   "almoco": {
     "folhaCSV": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRb28JVGKr6mnb8H4GGEN9QFDotYaNrEgniEy9aRXmRtKftwBnMkr44io-PxFSf5lnSt6LlVWyoyjA-/pub?gid=0&single=true&output=csv",
+    "falha": {
+      "texto": "Não foi possível carregar as escolhas de hoje.",
+      "link": "Ver a ementa no Facebook",
+      "telefone": "Se não a encontrar no Facebook, ligue-nos para"
+    },
+    "domingo": "Ao domingo estamos fechados. Voltamos na segunda-feira.",
     "itens": [
       { "tipo": "Sopa", "nome": "Caldo verde", "preco": "1,60 €" },
       { "tipo": "Salada", "nome": "Peru, atum e delícias", "preco": "6,50 €" },
@@ -66,11 +77,11 @@
   },
 
   "carta": [
-    { "nome": "Hambúrguer à Convívio", "texto": "O mais falado da casa. Há quem lhe chame divino.", "preco": "a confirmar" },
-    { "nome": "Francesinha", "texto": "Há quem venha de propósito por ela.", "preco": "a confirmar" },
+    { "nome": "Hambúrguer à Convívio", "texto": "O mais falado da casa. Há quem lhe chame divino.", "preco": "" },
+    { "nome": "Francesinha", "texto": "Há quem venha de propósito por ela.", "preco": "" },
     { "nome": "Menu do dia", "texto": "Pão, sopa, prato e bebida de copo, ao almoço.", "preco": "8,80 €" },
-    { "nome": "Fino e empalhada", "texto": "Tremoços e amendoins para acompanhar.", "preco": "a confirmar" },
-    { "nome": "Tosta mista", "texto": "Para qualquer hora do dia.", "preco": "a confirmar" },
+    { "nome": "Fino e empalhada", "texto": "Tremoços e amendoins para acompanhar.", "preco": "" },
+    { "nome": "Tosta mista", "texto": "Para qualquer hora do dia.", "preco": "" },
     { "nome": "Caldo verde", "texto": "Sempre na ementa.", "preco": "1,60 €" }
   ],
 

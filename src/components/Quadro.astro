@@ -13,13 +13,21 @@ const { pratoDoDia: p, contactos } = site;
           <span data-campo="data">{p.data}</span>
         </div>
 
-        <p class="quadro__rotulo">Prato do dia</p>
+        <p class="quadro__rotulo" data-linha="rotulo">Prato do dia</p>
         <h2 class="quadro__prato" data-campo="prato">{p.prato}</h2>
         <p class="quadro__sopa" data-campo="sopa" data-linha="sopa">{fraseSopa(p.sopa)}</p>
         <p class="quadro__preco" data-campo="preco" data-linha="preco">{p.preco}</p>
+
+        <div class="quadro__falha" data-linha="falha" hidden>
+          <p>{semOrfas(p.falha.texto)}</p>
+          <p><a href={contactos.facebook}>{semOrfas(p.falha.link)}</a></p>
+          <p class="quadro__telefone">
+            {semOrfas(p.falha.telefone)} <a href={`tel:${contactos.telefone}`}>{contactos.telefoneVisivel}</a>.
+          </p>
+        </div>
       </div>
 
-      <p class="quadro__nota">
+      <p class="quadro__nota" data-linha="nota">
         {semOrfas(p.nota)}
         <a href={contactos.facebook}>Ver o Facebook</a>
       </p>
@@ -40,6 +48,15 @@ const { pratoDoDia: p, contactos } = site;
     const campoPrato = seccao.querySelector('[data-campo="prato"]');
     const linhaSopa = seccao.querySelector('[data-linha="sopa"]');
     const linhaPreco = seccao.querySelector('[data-linha="preco"]');
+    let carregado = false;
+
+    // Sem a folha, o conteúdo do site.json pode ter dias: esconde-o e manda para o Facebook.
+    function mostrarFalha() {
+      for (const el of [campoData, campoPrato, linhaSopa, linhaPreco]) el?.setAttribute('hidden', '');
+      seccao.querySelector('[data-linha="rotulo"]')?.setAttribute('hidden', '');
+      seccao.querySelector('[data-linha="nota"]')?.setAttribute('hidden', '');
+      seccao.querySelector('[data-linha="falha"]')?.removeAttribute('hidden');
+    }
 
     try {
       const resposta = await fetch(url, { cache: 'no-store' });
@@ -60,10 +77,12 @@ const { pratoDoDia: p, contactos } = site;
         if (campoPrato) campoPrato.textContent = 'Fechados';
         linhaSopa?.setAttribute('hidden', '');
         linhaPreco?.setAttribute('hidden', '');
+        carregado = true;
         return;
       }
 
-      const registo = registoHoje ?? registos[registos.length - 1];
+      // Dia de abertura sem linha na folha: melhor mandar para o Facebook do que mostrar um prato antigo.
+      const registo = registoHoje;
       if (!registo || !registo.prato) return;
 
       const campoSopa = seccao.querySelector('[data-campo="sopa"]');
@@ -73,9 +92,11 @@ const { pratoDoDia: p, contactos } = site;
       if (campoPrato && registo.prato) campoPrato.textContent = registo.prato;
       if (campoSopa && registo.sopa) campoSopa.textContent = fraseSopa(registo.sopa);
       if (campoPreco && registo.preco) campoPreco.textContent = registo.preco;
+      carregado = true;
     } catch {
-      // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
+      // Sem ligação ou folha indisponível: tratado no finally.
     } finally {
+      if (!carregado) mostrarFalha();
       conteudo?.removeAttribute('data-carregando');
     }
   }
@@ -153,6 +174,27 @@ const { pratoDoDia: p, contactos } = site;
     margin: 1.25rem 0 0;
     max-width: none;
   }
+
+  .quadro__falha {
+    font-size: var(--t-md);
+    color: rgba(237,233,220,.8);
+    margin: 0 auto;
+    max-width: 30ch;
+  }
+  .quadro__falha p { margin: 0 auto .75rem; }
+  .quadro__falha a {
+    font-family: var(--display);
+    font-weight: 600;
+    color: var(--latao);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .quadro__falha .quadro__telefone {
+    font-size: var(--t-sm);
+    color: rgba(237,233,220,.6);
+    margin: 1.25rem auto 0;
+  }
+  .quadro__telefone a { white-space: nowrap; }
 
   .quadro__nota {
     font-size: var(--t-sm);

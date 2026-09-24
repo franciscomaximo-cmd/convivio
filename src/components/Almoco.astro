@@ -1,6 +1,7 @@
 ---
 import site from '../data/site.json';
-const { almoco } = site;
+import { semOrfas } from '../scripts/tipografia.js';
+const { almoco, contactos } = site;
 const GRUPOS = ["Sopa", "Salada", "Peixe", "Carne"];
 const porTipo = GRUPOS
   .map(t => ({ tipo: t, itens: almoco.itens.filter(i => i.tipo === t) }))
@@ -31,11 +32,23 @@ const porTipo = GRUPOS
         </div>
       ))}
     </div>
+
+    <div class="almoco__aviso" data-aviso="falha" hidden>
+      <p>{semOrfas(almoco.falha.texto)}</p>
+      <p><a href={contactos.facebook}>{semOrfas(almoco.falha.link)}</a></p>
+      <p class="almoco__telefone">
+        {semOrfas(almoco.falha.telefone)} <a href={`tel:${contactos.telefone}`}>{contactos.telefoneVisivel}</a>.
+      </p>
+    </div>
+
+    <div class="almoco__aviso" data-aviso="domingo" hidden>
+      <p>{semOrfas(almoco.domingo)}</p>
+    </div>
   </div>
 </section>
 
 <script>
-  import { analisarCSV, paraObjetos, dataDeHoje } from '../scripts/csv.js';
+  import { analisarCSV, paraObjetos, dataDeHoje, ehDomingo } from '../scripts/csv.js';
 
   const GRUPOS = ['Sopa', 'Salada', 'Peixe', 'Carne'];
 
@@ -98,6 +111,9 @@ const porTipo = GRUPOS
     const url = seccao?.dataset.folhaCsv;
     if (!url) return;
 
+    // Sem as escolhas de hoje, o conteúdo do site.json pode estar desatualizado: esconde-o.
+    let aviso = 'falha';
+
     try {
       const resposta = await fetch(url, { cache: 'no-store' });
       if (!resposta.ok) return;
@@ -109,7 +125,10 @@ const porTipo = GRUPOS
       const registos = paraObjetos(linhas);
       const hoje = dataDeHoje();
       const registosHoje = registos.filter((r) => r.data === hoje && r.nome);
-      if (!registosHoje.length) return;
+      if (!registosHoje.length) {
+        if (ehDomingo()) aviso = 'domingo';
+        return;
+      }
 
       const grupos = GRUPOS
         .map((tipo) => ({ tipo, itens: registosHoje.filter((r) => r.tipo === tipo) }))
@@ -118,9 +137,14 @@ const porTipo = GRUPOS
 
       const scope = atributoScope(seccao);
       grelha.replaceChildren(...grupos.map((g) => construirGrupo(scope, g.tipo, g.itens)));
+      aviso = null;
     } catch {
-      // Sem ligação ou folha indisponível: mantém o conteúdo do site.json.
+      // Sem ligação ou folha indisponível: tratado no finally.
     } finally {
+      if (aviso) {
+        grelha?.setAttribute('hidden', '');
+        seccao.querySelector(`[data-aviso="${aviso}"]`)?.removeAttribute('hidden');
+      }
       grelha?.removeAttribute('data-carregando');
     }
   }
@@ -149,6 +173,29 @@ const porTipo = GRUPOS
   @media (min-width: 46rem) {
     .almoco__grelha { grid-template-columns: repeat(2, 1fr); }
   }
+
+  .almoco__grelha[hidden] { display: none; }
+
+  .almoco__aviso {
+    border-top: 2px solid var(--feltro);
+    padding-top: 1.25rem;
+    max-width: 40ch;
+    font-size: var(--t-md);
+  }
+  .almoco__aviso p { margin-bottom: .75rem; }
+  .almoco__aviso a {
+    font-family: var(--display);
+    font-weight: 600;
+    color: var(--feltro);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .almoco__aviso .almoco__telefone {
+    font-size: var(--t-sm);
+    color: rgba(18,26,22,.65);
+    margin-top: 1.25rem;
+  }
+  .almoco__telefone a { white-space: nowrap; }
 
   .grupo__titulo {
     font-size: var(--t-base);
