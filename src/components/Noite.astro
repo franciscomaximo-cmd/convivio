@@ -8,7 +8,7 @@ const { noite } = site;
     <div>
       <p class="noite__etiqueta">Depois do jantar</p>
       <h2 class="noite__titulo">{noite.titulo}</h2>
-      <p class="noite__texto">{semOrfas(noite.texto)}</p>
+      <p class="noite__texto texto-equilibrado">{semOrfas(noite.texto)}</p>
     </div>
     <ul class="noite__lista">
       {noite.pontos.map(p => <li>{p}</li>)}

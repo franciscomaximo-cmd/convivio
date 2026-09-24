@@ -54,5 +54,9 @@ const schema = {
   <body>
     <a class="saltar" href="#conteudo">Saltar para o conteúdo</a>
     <slot />
+    <script>
+      import { equilibrarTextosComRedimensionamento } from '../scripts/viuvas.js';
+      equilibrarTextosComRedimensionamento();
+    </script>
   </body>
 </html>
