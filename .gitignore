@@ -2,5 +2,5 @@ node_modules/
 dist/
 .astro/
 .DS_Store
-.claude/
+.claude/settings.local.json
 negocios/

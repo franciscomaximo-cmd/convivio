@@ -1,0 +1,23 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/validar-site-json.mjs\"",
+            "timeout": 10,
+            "statusMessage": "A validar site.json"
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/verificar-pt-pt.mjs\"",
+            "timeout": 10,
+            "statusMessage": "A procurar português do Brasil"
+          }
+        ]
+      }
+    ]
+  }
+}
