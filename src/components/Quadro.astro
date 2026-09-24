@@ -1,6 +1,7 @@
 ---
 import site from '../data/site.json';
 import { fraseSopa } from '../scripts/csv.js';
+import { semOrfas } from '../scripts/tipografia.js';
 const { pratoDoDia: p, contactos } = site;
 ---
 <section id="quadro" class="seccao quadro-seccao" data-folha-csv={p.folhaCSV}>
@@ -19,7 +20,7 @@ const { pratoDoDia: p, contactos } = site;
       </div>
 
       <p class="quadro__nota">
-        {p.nota}
+        {semOrfas(p.nota)}
         <a href={contactos.facebook}>Ver o Facebook</a>
       </p>
     </div>

@@ -1,5 +1,6 @@
 ---
 import site from '../data/site.json';
+import { semOrfas } from '../scripts/tipografia.js';
 const { contactos: c, horario } = site;
 const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(c.morada + ', ' + c.localidade)}&output=embed`;
 ---
@@ -24,7 +25,7 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(c.morada +
         ))}
       </dl>
 
-      <p class="visita__texto">Liga, aparece ou manda mensagem. A malta está por cá.</p>
+      <p class="visita__texto">{semOrfas('Liga, aparece ou manda mensagem. A malta está por cá.')}</p>
 
       <div class="visita__accoes">
         <a class="botao" href={`tel:${c.telefone}`}>{c.telefoneVisivel}</a>

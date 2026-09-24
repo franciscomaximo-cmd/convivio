@@ -1,12 +1,13 @@
 ---
 import site from '../data/site.json';
+import { semOrfas } from '../scripts/tipografia.js';
 const { historia } = site;
 ---
 <section id="historia" class="seccao historia">
   <div class="envolve historia__int">
     <p class="etiqueta">{historia.etiqueta}</p>
     <h2 class="historia__titulo">{historia.titulo}</h2>
-    <p class="historia__texto">{historia.texto}</p>
+    <p class="historia__texto">{semOrfas(historia.texto)}</p>
   </div>
 </section>
 

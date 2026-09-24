@@ -1,5 +1,6 @@
 ---
 import site from '../data/site.json';
+import { semOrfas } from '../scripts/tipografia.js';
 const { noite } = site;
 ---
 <section id="noite" class="seccao noite">
@@ -7,7 +8,7 @@ const { noite } = site;
     <div>
       <p class="noite__etiqueta">Depois do jantar</p>
       <h2 class="noite__titulo">{noite.titulo}</h2>
-      <p class="noite__texto">{noite.texto}</p>
+      <p class="noite__texto">{semOrfas(noite.texto)}</p>
     </div>
     <ul class="noite__lista">
       {noite.pontos.map(p => <li>{p}</li>)}
